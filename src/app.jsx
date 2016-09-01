@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // import {transform} from './transform.js';
+import { neatJSON } from './neatjson.js';
 import ReactInStyle from './transback.js';
 
 class Input extends React.Component {
@@ -73,36 +74,37 @@ export default class App extends React.Component {
     }
 
     try {
-      var sampleObj = JSON.stringify({
-        // & refers to parent selector, similar to SASS
-        '&.test': {
-            ':hover': {
-                background: '#999'
-            }
-        },
-        height: '100px',
-        width: '100px',
-        display: 'block',
-        // Auto converted to kebab case.
-        backgroundColor: 'red',
-        img: {
-            height: '500px',
-            '&.thumbnail': {
-                height: '50px'
-            }
-        },
-        ':hover': {
-            'background-color': 'blue'
+
+      var resultobj = this.state.inputText
+      console.log(this.state.inputText)
+
+      debugger;
+      var result;
+      var error;
+      try {
+        var obj = JSON.parse(resultobj);
+      } catch(e1){
+        error=e1;
+        console.log(error)
+        if (e1 instanceof SyntaxError){
+          try {
+            eval("var obj = "+resultobj);
+            console.log('HERE', obj)
+          } catch(e2){
+            obj = undefined;
+            console.log('WHY?!')
+          }
         }
-      })
-      var formattedInput = this.state.inputText.substr(1)
-      console.log('1', formattedInput)
-      formattedInput = JSON.stringify(JSON.parse(formattedInput.replace(/\'/g, '\"')))
-      console.log('2', formattedInput)
-      formattedInput = JSON.parse(formattedInput)
-      console.log('3', formattedInput)
-      // var formattedInput = JSON.parse(sampleObj)
-      var result = ReactInStyle.objToCss(formattedInput);
+      }
+      if (obj===undefined){
+        console.log(error)
+      } else{
+        var start = new Date;
+        result = neatJSON(obj, { wrap:40, short:true, aligned:true, padding:1, afterComma:1, aroundColonN:1 }).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      }
+      // var result = neatJSON(resultobj).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      console.log(result)
+      result = ReactInStyle.objToCss(result)
 
       this.setState({
         outputText: result,
