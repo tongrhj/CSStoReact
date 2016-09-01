@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {transform} from './transform.js';
+// import {transform} from './transform.js';
+import ReactInStyle from './transback.js';
 
 class Input extends React.Component {
   componentDidUpdate(prevProps) {
@@ -72,9 +73,9 @@ export default class App extends React.Component {
     }
 
     try {
-      var transformed = transform(this.state.inputText);
+      var result = ReactInStyle.objToCss(this.inputText);
+      console.log(result)
 
-      var result = JSON.stringify(transformed, null, this.refs.useNewline.checked ? 2 : 0);
       this.setState({
         outputText: result,
         error: null
@@ -96,7 +97,7 @@ export default class App extends React.Component {
 
     return (
       <div style={{"textAlign":"center"}}>
-        <Input ref='inputCss' placeholder="Type or paste CSS here..." onChange={this.inputTextUpdate} value={inputText} />
+        <Input ref='inputCss' placeholder="Type or paste JSON here..." onChange={this.inputTextUpdate} value={inputText} />
         <textarea ref='outputCss' cols="40" rows="20" style={outputCssStyle} value={outputText} />
         <br />
         <input style={{"marginLeft": "266px"}} ref="useNewline" type="checkbox" onChange={this.update} /> Format

@@ -49,22 +49,32 @@ table {
 /* LAYOUT STYLES */
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 1em;
+  font-size: 1.2em;
   line-height: 1.5;
-  color: #6d6d6d;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #111111;
+  background-color: slategray;
 }
 
 a {
-  color: #d5000d;
+  color: #ffffff;
+  opacity: 1;
 }
 a:hover {
-  color: #c5000c;
+  color: #ffffff;
+  opacity: 0.9;
 }
 
 header {
   padding-top: 35px;
   padding-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header svg {
+  width: 200px;
+  display: inline-block;
 }
 
 header h1 {
