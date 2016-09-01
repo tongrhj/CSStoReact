@@ -73,8 +73,36 @@ export default class App extends React.Component {
     }
 
     try {
-      var result = ReactInStyle.objToCss(this.inputText);
-      console.log(result)
+      var sampleObj = JSON.stringify({
+        // & refers to parent selector, similar to SASS
+        '&.test': {
+            ':hover': {
+                background: '#999'
+            }
+        },
+        height: '100px',
+        width: '100px',
+        display: 'block',
+        // Auto converted to kebab case.
+        backgroundColor: 'red',
+        img: {
+            height: '500px',
+            '&.thumbnail': {
+                height: '50px'
+            }
+        },
+        ':hover': {
+            'background-color': 'blue'
+        }
+      })
+      var formattedInput = this.state.inputText.substr(1)
+      console.log('1', formattedInput)
+      formattedInput = JSON.stringify(JSON.parse(formattedInput.replace(/\'/g, '\"')))
+      console.log('2', formattedInput)
+      formattedInput = JSON.parse(formattedInput)
+      console.log('3', formattedInput)
+      // var formattedInput = JSON.parse(sampleObj)
+      var result = ReactInStyle.objToCss(formattedInput);
 
       this.setState({
         outputText: result,
